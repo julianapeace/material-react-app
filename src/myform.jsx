@@ -11,16 +11,17 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Sandbox from './material-playground'
 class MyForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    var messagesList = localStorage.msglist || '[]';
+    messagesList = JSON.parse(messagesList);
+
     this.state = {
       date: new Date(),
       name: '',
       color: '',
-      messagesList: [
-        {id: 1, name:'hello'},
-        {id: 2, name:'this is me'},
-      ],
+      messagesList: messagesList,
       text:"",
     }
   }
@@ -39,24 +40,36 @@ class MyForm extends Component {
     console.log('updated color to: ' + value)
   }
 
+  delete (event, msg) {
+    var index = this.state.messagesList.findIndex(function (m) {
+      return m.id == msg.id;
+    });
 
-  handle_submit(event) {
-    let msg = this.state.name
-    let messagesList = this.state.messagesList.concat([{
-      name: msg,
-    }])
+    var messagesList = this.state.messagesList;
+    messagesList.splice(index, 1);
+    this.do_save(messagesList);
+  }
 
-    console.log(messagesList)
-
-    let data = JSON.stringify({name:this.state.name});
-    let a = []
-    a = JSON.parse(localStorage.getItem('msglist'));
-    a.push(data);
-    localStorage.setItem('msglist', JSON.stringify(a));
+  do_save(messagesList) {
+    localStorage.setItem('msglist', JSON.stringify(messagesList));
 
     this.setState({
       messagesList: messagesList,
     })
+  }
+
+  handle_submit(event) {
+    let msg = this.state.name
+    let messagesList = this.state.messagesList;
+
+    messagesList.push({
+      id: Date.now(),
+      name: msg
+    });
+
+    console.log(messagesList)
+
+    this.do_save(messagesList);
     console.log('Submitted:' , this.state.name, this.state.color);
 
     event.preventDefault();
@@ -68,14 +81,6 @@ clearStorage(event){
 }
 
   render() {
-    let a = JSON.parse(localStorage.getItem('msglist'))
-    let messages = []
-    a.forEach(element => {
-      let one = JSON.parse(element)
-      messages.push(one['name'])
-    })
-    let sorted_messages = messages.sort()
-
     return (
       <div>
         <AppBar title="Chat App"/>
@@ -83,22 +88,21 @@ clearStorage(event){
         <Card className="md-card">
           <CardTitle title="Messages" subtitle="Message list"/>
           <CardText>
-          <h2>Message State</h2>
+
+          <h2>Message State - Delete Function</h2>
           {this.state.messagesList.map((msg) =>
-            <a key={msg.id}>
-            {msg.name}
-            </a>
+            <p key={msg.id}>
+              <a href="javascript: void(0);" onTouchTap={(e) => this.delete(e, msg)}>
+              {msg.name}
+              </a>
+            </p>
           )}
-          <h2>Messages</h2>
-          {messages.map((msg)=>
-              <p>
-              {msg}
-              </p>
-            )}
-          <h2>Sorted Messages</h2>
-        {sorted_messages.map((msg)=>
-            <p>
-            {msg}
+          <h2>Message State - Edit Function</h2>
+          {this.state.messagesList.map((msg) =>
+            <p key={msg.id}>
+              <a href={'/messages/' + msg.id}>
+              {msg.name}
+              </a>
             </p>
           )}
 

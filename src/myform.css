@@ -6,3 +6,7 @@
 .md-card .divider{
   margin: 20px 0 !important;
 }
+
+a:link, a:visited{
+  text-decoration: none;
+}
