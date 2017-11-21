@@ -4,9 +4,11 @@ import './myform.css';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-
+import Sandbox from './material-playground'
 class MyForm extends Component {
   constructor() {
     super();
@@ -63,6 +65,19 @@ clearStorage(event){
   // localStorage.removeItem('judy');
   localStorage.clear();
 }
+const Logged = () => (
+  <IconMenu
+    iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Refresh" />
+    <MenuItem primaryText="Help" />
+    <MenuItem primaryText="Sign out" />
+  </IconMenu>
+);
 
   render() {
     let a = JSON.parse(localStorage.getItem('msglist'))
@@ -71,22 +86,30 @@ clearStorage(event){
       let one = JSON.parse(element)
       messages.push(one['name'])
     })
-    console.log(messages)
     let sorted_messages = messages.sort()
 
     return (
       <div>
-        <AppBar title="Hello Class"/>
+      <Sandbox/>
+        <AppBar title="Chat App"
+        iconElementRight={<Logged/>}/>
 
         <Card className="md-card">
           <CardTitle title="Messages" subtitle="Message list"/>
           <CardText>
+          <h2>Message State</h2>
           {this.state.messagesList.map((msg) =>
-            <p key={msg.id}>
+            <a key={msg.id}>
             {msg.name}
-            </p>
+            </a>
           )}
-
+          <h2>Messages</h2>
+          {messages.map((msg)=>
+              <p>
+              {msg}
+              </p>
+            )}
+          <h2>Sorted Messages</h2>
         {sorted_messages.map((msg)=>
             <p>
             {msg}
