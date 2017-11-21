@@ -4,6 +4,7 @@ import './myform.css';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import TextField from 'material-ui/TextField';
@@ -65,19 +66,6 @@ clearStorage(event){
   // localStorage.removeItem('judy');
   localStorage.clear();
 }
-const Logged = () => (
-  <IconMenu
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  >
-    <MenuItem primaryText="Refresh" />
-    <MenuItem primaryText="Help" />
-    <MenuItem primaryText="Sign out" />
-  </IconMenu>
-);
 
   render() {
     let a = JSON.parse(localStorage.getItem('msglist'))
@@ -90,9 +78,7 @@ const Logged = () => (
 
     return (
       <div>
-      <Sandbox/>
-        <AppBar title="Chat App"
-        iconElementRight={<Logged/>}/>
+        <AppBar title="Chat App"/>
 
         <Card className="md-card">
           <CardTitle title="Messages" subtitle="Message list"/>
