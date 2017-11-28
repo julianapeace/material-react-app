@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Pic from './images/snapshot.png';
 import MyForm from './myform'
+import Message from './message'
 import Sandbox from './material-playground'
 import {auth} from './fsociety'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -30,7 +31,7 @@ const theme = getMuiTheme({
 const Home = () =>(
   <div>
   <h2>Home</h2>
-  <img src={Pic}/>
+  <img src={Pic} alt="my first hackathon"/>
 </div>
 )
 const NoMatch = ({ location }) => (
@@ -38,12 +39,18 @@ const NoMatch = ({ location }) => (
     <h3>Page not found: {location.pathname}</h3>
   </div>
 )
+// const Message = ({match}) => (
+//   <div>
+//     <h2>Here be messages</h2>
+//     <p>Message: {match.params.id}</p>
+//   </div>
+// )
 
 class App extends Component {
   constructor(){
     super();
     this.state={
-      image:'https://brand.cfaes.ohio-state.edu/sites/ctbrand/files/site-library/site-documents/art/backgrounds/osu/buckeye_leaf_diamond_graywhite.jpg',
+      image:'#',
     }
   }
   login(){

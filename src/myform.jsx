@@ -4,12 +4,9 @@ import './myform.css';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import Sandbox from './material-playground'
+
 class MyForm extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +39,7 @@ class MyForm extends Component {
 
   delete (event, msg) {
     var index = this.state.messagesList.findIndex(function (m) {
-      return m.id == msg.id;
+      return m.id === msg.id;
     });
 
     var messagesList = this.state.messagesList;
@@ -76,7 +73,6 @@ class MyForm extends Component {
 }
 clearStorage(event){
   event.preventDefault();
-  // localStorage.removeItem('judy');
   localStorage.clear();
 }
 
@@ -89,7 +85,7 @@ clearStorage(event){
           <CardTitle title="Messages" subtitle="Message list"/>
           <CardText>
 
-          <h2>Message State - Delete Function</h2>
+          <h2>Messages - Click to Delete</h2>
           {this.state.messagesList.map((msg) =>
             <p key={msg.id}>
               <a href="javascript: void(0);" onTouchTap={(e) => this.delete(e, msg)}>
@@ -97,7 +93,7 @@ clearStorage(event){
               </a>
             </p>
           )}
-          <h2>Message State - Edit Function</h2>
+          <h2>Messages - Edit and Delete</h2>
           {this.state.messagesList.map((msg) =>
             <p key={msg.id}>
               <a href={'/messages/' + msg.id}>
@@ -111,20 +107,19 @@ clearStorage(event){
 
           <Card className="md-card">
             <form id="form" onSubmit={event => this.handle_submit(event)}>
-              <CardTitle title="My Form" subtitle="subtitle"/>
+              <CardTitle title="My Chat App" subtitle="Share messages"/>
               <CardText>
 
-                <TextField floatingLabelText="Your Name"
+                <TextField floatingLabelText="Type in a message"
                   defaultValue= {this.state.name}
                   onChange={event => this.update_state(event, 'name')}/>
-
-
+                  <hr />
                 <SelectField
                   floatingLabelText="Color"
                   value={this.state.color}
                   onChange={this.update_select}>
-                  <MenuItem value="red" primaryText="Red" />
-                  <MenuItem value="blue" primaryText="Blue" />
+                  <MenuItem value="red" primaryText="Red" secondaryText="#FF0000"/>
+                  <MenuItem value="blue" primaryText="Blue" secondaryText="#0000FF"/>
                 </SelectField>
 
               </CardText>
